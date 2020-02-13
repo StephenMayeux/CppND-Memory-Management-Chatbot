@@ -11,6 +11,8 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
+    std::cout << "ChatBot Constructor without memory allocation" << std::endl;
+
     // invalidate data handles
     _image = nullptr;
     _chatLogic = nullptr;
@@ -42,11 +44,72 @@ ChatBot::~ChatBot()
     }
 }
 
-//// STUDENT CODE
-////
+// Task 2: Implement Rule of 5
 
-////
-//// EOF STUDENT CODE
+ChatBot::ChatBot(const ChatBot& src)
+{
+    std::cout << "ChatBot Copy Constructor Called" << std::endl;
+
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+    _image = new wxBitmap(*src._image);
+}
+
+ChatBot::ChatBot(ChatBot&& src)
+{
+    std::cout << "ChatBot Move Constructor Called" << std::endl;
+
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+    _image = src._image;
+
+    src._chatLogic = nullptr;
+    src._rootNode = nullptr;
+    src._currentNode = nullptr;
+    src._image = NULL; // not nullptr because wxWidgets fucking sucks!
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& src)
+{
+    std::cout << "ChatBot Copy Assignment Override" << std::endl;
+
+    // check for self assignment
+    if (this == &src)
+    {
+        return *this;
+    }
+
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+    _image = new wxBitmap(*src._image);
+
+    return *this;
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& src)
+{
+    std::cout << "ChatBot Move Assignment Ooperator" << std::endl;
+
+    if (this == &src)
+    {
+        return *this;
+    }
+
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+    _image = src._image;
+
+    src._chatLogic = nullptr;
+    src._rootNode = nullptr;
+    src._currentNode = nullptr;
+    src._image = NULL; // booooo!
+
+    return *this;
+}
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
