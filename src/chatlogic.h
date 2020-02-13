@@ -17,7 +17,8 @@ private:
     // Task 3: Update Ownership
     // data handles (owned)
     std::vector<std::unique_ptr<GraphNode>> _nodes;
-    std::vector<GraphEdge *> _edges;
+    // Task 4: remove that crap
+    //std::vector<GraphEdge *> _edges;
 
     // data handles (not owned)
     GraphNode *_currentNode;
